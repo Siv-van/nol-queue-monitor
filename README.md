@@ -44,7 +44,7 @@
   - Edge：`edge://extensions/`
 2. 开启右上角/左下角「开发者模式」
 3. 点击「加载已解压的扩展程序」
-4. 选择本项目所在文件夹 nol-queue-monitor
+4. 选择本项目所在文件夹 nol-queue-monitor-main
 5. 安装成功后，浏览器工具栏会出现蓝色「Q」图标
 
 
