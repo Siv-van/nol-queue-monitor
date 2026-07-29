@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "抢票排队监控助手",
+  "name_en": "Ticket Queue Monitor",
+  "version": "1.1.10",
+  "description": "监控票务网站排队进度，达到阈值或出现异常弹窗时通过飞书提醒。非官方工具，与任何票务平台无隶属关系。",
+  "permissions": [
+    "storage",
+    "notifications",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.nol.com/*",
+    "*://*.interpark.com/*",
+    "*://*.feishu.cn/*",
+    "*://*.larksuite.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "32": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    },
+    "default_title": "抢票排队监控助手"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.nol.com/*",
+        "*://*.interpark.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}

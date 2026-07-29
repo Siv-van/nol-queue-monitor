@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抢票排队监控助手</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <img src="icon.png" alt="icon" class="icon">
+      <div>
+        <h1 class="title">抢票排队监控助手</h1>
+      </div>
+      <label class="switch" title="启用/停用监控">
+        <input type="checkbox" id="enabled">
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <section class="status-card" id="statusCard">
+      <div class="status-header">
+        <div class="status-left">
+          <span class="status-dot" id="statusDot"></span>
+          <span class="status-text" id="statusText">未在排队页面</span>
+        </div>
+        <button class="btn-icon" id="refreshBtn" title="刷新状态">↻</button>
+      </div>
+      <div class="error-banner" id="errorBanner" style="display: none;">
+        <span id="errorText"></span>
+      </div>
+    </section>
+
+    <section class="settings">
+      <h2 class="section-title">通知设置</h2>
+
+      <div class="field">
+        <label for="feishuWebhook">飞书机器人 Webhook 地址</label>
+        <input
+          type="text"
+          id="feishuWebhook"
+          placeholder="粘贴飞书群机器人的 Webhook 完整地址"
+          autocomplete="off"
+        >
+        <p class="hint">
+          在飞书建一个只有你自己的群 → 群设置 → 群机器人 → 添加「自定义机器人」，复制其 Webhook 地址（https://open.feishu.cn/open-apis/bot/v2/hook/...）粘贴到这里。
+        </p>
+      </div>
+
+      <div class="field">
+        <label>提醒阈值：前方人数 ≤</label>
+        <div id="thresholdList" class="threshold-list"></div>
+        <button class="btn-add" id="addThresholdBtn" type="button">+ 添加阈值</button>
+        <p class="hint">当排队顺位前方人数 ≤ 某个阈值时发送提醒；每个阈值仅提醒一次（触发后置为已用）。最多可设置 5 个阈值。插件根据下方勾选的「飞书通知 / 播放浏览器铃声 / 浏览器通知 / 起床铃」进行提醒。<strong>「起床铃」会循环播放响亮闹钟声并在页面上显示「停止起床铃」按钮，直到你手动停止，适合半夜叫醒熟睡的人（请确保电脑音量已开）。</strong><strong>首次使用或重置阈值和提醒方式后，请先点击「保存设置」然后开启右上角监控开关。</strong></p>
+      </div>
+
+      <div class="field inline">
+        <div class="option-label-group">
+          <label for="enableFeishu">飞书通知</label>
+          <button class="btn-test" id="testFeishuBtn" type="button">测试</button>
+        </div>
+        <input type="checkbox" id="enableFeishu" checked>
+      </div>
+
+      <div class="field inline">
+        <div class="option-label-group">
+          <label for="enableSound">播放浏览器铃声</label>
+          <button class="btn-test" id="testSoundBtn" type="button">测试</button>
+        </div>
+        <input type="checkbox" id="enableSound" checked>
+      </div>
+
+      <div class="field inline">
+        <div class="option-label-group">
+          <label for="enableBrowserNotification">浏览器通知</label>
+          <button class="btn-test" id="testBrowserBtn" type="button">测试</button>
+        </div>
+        <input type="checkbox" id="enableBrowserNotification" checked>
+      </div>
+
+      <div class="field inline">
+        <div class="option-label-group">
+          <label for="enableAlarm">起床铃（循环响铃，直到手动停止）</label>
+          <button class="btn-test" id="testAlarmBtn" type="button">测试</button>
+        </div>
+        <input type="checkbox" id="enableAlarm">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="saveBtn">保存设置</button>
+        <button class="btn btn-stop" id="stopAlarmBtn" type="button">停止起床铃</button>
+      </div>
+
+      <div class="message" id="message"></div>
+    </section>
+
+    <footer class="footer">
+      <p>请保持浏览器和 NOL 排队页面打开</p>
+    </footer>
+
+    <details class="debug-panel" id="debugPanel">
+      <summary>调试信息</summary>
+      <pre id="debugText"></pre>
+    </details>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
